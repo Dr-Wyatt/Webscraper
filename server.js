@@ -23,7 +23,7 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" })); 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
@@ -37,40 +37,54 @@ app.get("/", function (req, res) {
     res.render("frontPage");
 });
 
-app.get("/scrape", function(req, res) {
+app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
-    axios.get("http://www.reddit.com/").then(function(response) {
-      // Then, we load that into cheerio and save it to $ for a shorthand selector
-      var $ = cheerio.load(response.data);
-  
-      // Now, we grab every h2 within an article tag, and do the following:
-      $("div a").each(function(i, element) {
-        // Save an empty result object
-        var result = {};
-  
-        result.title = $(this)
-          .text();
-  
-        result.link = $(this).attr("href");
-        console.log("this is result:", result);
-  
-        // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
-        .then(function(dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-        })
-        .catch(function(err) {
-          // If an error occurred, log it
-          console.log(err);
+    axios.get("http://www.nytimes.com/").then(function (response) {
+        // Then, we load that into cheerio and save it to $ for a shorthand selector
+        var $ = cheerio.load(response.data);
+
+        // Now, we grab every h2 within an article tag, and do the following:
+        $("article a").each(function (i, element) {
+            // Save an empty result object
+            var result = {};
+
+            if ($(this).children('div').children('h2')
+                .text() != '') {
+                result.title = $(this).children('div').children('h2')
+                    .text();
+            } else if ($(this).children('div').children('div').children('h2')
+                .text() != '') {
+                result.title = $(this).children('div').children('div').children('h2')
+                    .text();
+            }
+
+            if ($(this).children('div').children('h2')
+                .text() != '' || $(this).children('div').children('div').children('h2')
+                    .text() != '') {
+                result.link = $(this).attr("href");
+            }
+            console.log("this is result:", result);
+
+            // Create a new Article using the `result` object built from scraping
+            if (result != null) {
+                db.Article.create(result)
+                    .then(function (dbArticle) {
+                        // View the added result in the console
+                        console.log(dbArticle);
+                    })
+                    .catch(function (err) {
+                        // If an error occurred, log it
+                        console.log(err);
+                    });
+            }
+
+
         });
-        
-      });
-  
-      // Send a message to the client
-      res.send("Scrape Complete");
+
+        // Send a message to the client
+        res.send("Scrape Complete");
     });
-  });
+});
 
 // // Route for getting all Articles from the db
 // app.get("/articles", function (req, res) {
