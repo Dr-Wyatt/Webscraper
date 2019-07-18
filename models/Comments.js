@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-// Save a reference to the Schema constructor
+// Save a reference to the Schema 
 var Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new NoteSchema object
