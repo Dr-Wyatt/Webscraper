@@ -66,9 +66,11 @@
         window.location.replace(`/comments/${thisId}`)
     });
 
-    $(documtent).on("click", ".goHome", function () {
-        // event.preventDefault();
+    $(".goHome").on("click", function (event) {
+        event.preventDefault();
+        console.log("Hello I am being clicked");
 
-        window.location.replace('/');
-    })
+
+        window.location.replace("/");
+    });
 

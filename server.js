@@ -99,7 +99,7 @@ app.get("/scrape", function (req, res) {
         });
 
         // Send a message to the client
-        res.send("Scrape Complete");
+        res.render("scraped");
     });
 });
 
@@ -136,7 +136,8 @@ app.get("/comments/:id", function (req, res) {
     // TODO
     // ====
     var id = req.params.id
-    db.Article.find({ _id: id })
+    if (id.match(/^[0-9a-fA-F]{24}$/)){
+        db.Article.find({ _id: id })
         .populate("comments")
         .then(function (dbArticle) {
             console.log("this is dbArticle", dbArticle);
@@ -151,6 +152,11 @@ app.get("/comments/:id", function (req, res) {
             // If an error occurs, send it back to the client
             res.json(err);
         });
+    } 
+    // else {
+    //     res.render("articleComments");
+    // }
+    
 });
 
 
