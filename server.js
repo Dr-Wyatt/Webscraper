@@ -153,10 +153,6 @@ app.get("/comments/:id", function (req, res) {
             res.json(err);
         });
     } 
-    // else {
-    //     res.render("articleComments");
-    // }
-    
 });
 
 

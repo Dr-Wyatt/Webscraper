@@ -71,9 +71,6 @@ $(".seeComments").on("click", function () {
 
 $(".goHome").on("click", function (event) {
     event.preventDefault();
-    console.log("Hello I am being clicked");
-
-
     window.location.replace("/");
 });
 
