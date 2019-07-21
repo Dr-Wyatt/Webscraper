@@ -1,1 +1,23 @@
-<h1>Hello This is the Front Page</h1>
+<div class="row justify-content-center mt-2">
+    <div class="col-5 text-center border border-primary m-1 bg-primary">
+        <h2>New York Times News Articles!</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="row justify-content-center">
+            {{#each articles}}
+            <div id={{this._id}} class="col-5 border border-dark m-1">
+                <h3>{{this.title}}</h3>
+                <h5>Summary: {{this.summary}}</h5>
+                <h6>Link: {{this.link}}</h6>
+                <button class="addComment button btn-dark mb-1" data-id={{this._id}}>Add Comment</button>
+                <button class="seeComments button btn-dark mb-1" data-id={{this._id}}>See Comments</button>
+            </div>
+
+            <div id="notes" class="col-5"></div>
+            {{/each}}
+
+        </div>
+
+    </div>
+
+</div>

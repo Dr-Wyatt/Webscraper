@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-5 text-center border border-primary m-1 bg-primary">
+            <h2>New York Times News Articles!</h2>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        {{#each articles}}
+        <div id={{this._id}} class="col-3 border border-dark m-1 text-center">
+            <h2 class="text-primary">{{this.title}}</h2>
+            <h3>Comments: </h3>
+            <h4>Title: {{this.comments.title}}</h4>
+            <h5>Message: {{this.comments.body}}</h5>
+        </div>
+        {{/each}}
+    </div>
+    <div class="row justify-content-center">
+        <button class="go-back-button button btn-success">Go Back</button>
+    </div>
+    
+
+</div>
