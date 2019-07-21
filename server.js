@@ -170,7 +170,7 @@ app.post("/articles/:id", function (req, res) {
             // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
             // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
             // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-            return db.Article.findOneAndUpdate({ _id: id }, { $set: { comments: dbComments._id } }, { new: true });
+            return db.Article.findOneAndUpdate({ _id: id }, { $push: { comments: dbComments._id } }, { new: true });
         })
         .then(function (dbArticle) {
             // If the User was updated successfully, send it back to the client
